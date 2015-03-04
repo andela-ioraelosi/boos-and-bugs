@@ -26,9 +26,21 @@ var Engine = (function(global) {
         lastTime;
 
 
-    canvas.width = 505;
-    canvas.height = 606;
+    canvas.width = 808;
+    canvas.height = 808;
     doc.body.appendChild(canvas);
+
+    var numRows = 8;
+    var numCols = 8;
+
+    // Create an array to store random indices that will be used to determine where grass blocks will be drawn.
+    var randomTiles = [];
+
+    for (var i = 0; i < Math.floor((numRows * numCols) / 4); i++) {
+        randomTiles.push(Math.floor(Math.random() * (numCols * numRows)));
+    }
+
+    var tileMap = {};
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -108,16 +120,21 @@ var Engine = (function(global) {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
+        var floorTiles = [
+            'images/stone-block.png',
+            'images/grass-block.png',
+            'images/water-block.png'
+        ]
         var rowImages = [
-                'images/water-block.png',   // Top row is water
+                'images/stone-block.png',   // Top row is water
                 'images/stone-block.png',   // Row 1 of 3 of stone
                 'images/stone-block.png',   // Row 2 of 3 of stone
                 'images/stone-block.png',   // Row 3 of 3 of stone
-                'images/grass-block.png',   // Row 1 of 2 of grass
-                'images/grass-block.png'    // Row 2 of 2 of grass
+                'images/stone-block.png',   // Row 1 of 2 of grass
+                'images/stone-block.png',   // Row 1 of 2 of grass
+                'images/stone-block.png',   // Row 1 of 2 of grass
+                'images/stone-block.png'    // Row 2 of 2 of grass
             ],
-            numRows = 6,
-            numCols = 5,
             row, col;
 
         /* Loop through the number of rows and columns we've defined above
@@ -126,6 +143,8 @@ var Engine = (function(global) {
          */
         for (row = 0; row < numRows; row++) {
             for (col = 0; col < numCols; col++) {
+                var tileIndex = randomTiles.indexOf(row * col + row + col) > -1 ? 1 : 0;
+                tileMap[row * numRows + col] = tileIndex;
                 /* The drawImage function of the canvas' context element
                  * requires 3 parameters: the image to draw, the x coordinate
                  * to start drawing and the y coordinate to start drawing.
@@ -133,13 +152,14 @@ var Engine = (function(global) {
                  * so that we get the benefits of caching these images, since
                  * we're using them over and over.
                  */
-                ctx.drawImage(ImageLoader.get(rowImages[row]), col * 101, row * 83);
+                ctx.drawImage(ImageLoader.get(floorTiles[tileIndex]), col * 101, row * 83);
             }
         }
 
 
         renderEntities();
     }
+
 
     /* This function is called by the render function and is called on each game
      * tick. It's purpose is to then call the render functions you have defined

@@ -1,3 +1,11 @@
+// Constant values
+var BLOCK_WIDTH = 101;
+var BLOCK_HEIGHT = 83;
+var ROW_COUNT = 8;
+var COLUMN_COUNT = 8;
+var PLAYER_WIDTH = 101;
+var PLAYER_HEIGHT = 101;
+
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
@@ -24,19 +32,7 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-var Player = function (playerSprite) {
-    this.sprite = playerSprite;
-    this.x = 200;
-    this.y = 200;
-};
 
-Player.prototype.update = function (dt) {
-
-};
-
-Player.prototype.render = function () {
-    ctx.drawImage(ImageLoader.get(this.sprite), this.x, this.y);
-}
 
 
 // Now instantiate your objects.
