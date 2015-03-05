@@ -22,7 +22,6 @@ Player.prototype.render = function () {
 };
 
 Player.prototype.handleInput = function (direction) {
-    console.log(direction);
     var player = this;
     function checkX () {
         return player.x >= 0 && player.x <= (COLUMN_COUNT * BLOCK_WIDTH) - PLAYER_HEIGHT;
